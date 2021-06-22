@@ -21,5 +21,7 @@ def sell_ticket():
 
 t1 = threading.Thread(target=sell_ticket, name="线程1")
 t2 = threading.Thread(target=sell_ticket, name="线程2")
+t3 = threading.Thread(target=sell_ticket, name="线程3")
 t1.start()
 t2.start()
+t3.start()
