@@ -113,6 +113,33 @@ if __name__ == '__main__':
 ```
 同一进程间的不同线程可以共享全局变量，不同的进程之间不能共享全局变量
 一个程序至少要有一个进程(主进程)，一个进程至少有一个线程(主线程)
+线程不能独立执行，必须依赖进程
+```
 
+###### 进程间通信
+
+```python
+import multiprocessing
+import time
+
+def producer(q):
+    for i in range(20):
+        time.sleep(0.2)
+        print("生产者生产了{}".format(i))
+        q.put(i)
+
+def customer(q):
+    for i in range(20):
+        time.sleep(0.4)
+        print("消费者消费了{}".format(q.get()))
+
+if __name__ == '__main__':
+    multiprocessing.set_start_method("fork")  # 这里是因为Mac默认启动程序的方式是：fork,python解释器的默认方式是spawn,所以需要指定
+    qe = multiprocessing.Queue()
+    p1 = multiprocessing.Process(target=producer, args=(qe,))
+    p2 = multiprocessing.Process(target=customer, args=(qe,))
+
+    p1.start()
+    p2.start()
 ```
 
